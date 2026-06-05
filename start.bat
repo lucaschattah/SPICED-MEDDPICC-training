@@ -1,0 +1,8 @@
+@echo off
+echo Instalando dependencias...
+.venv\Scripts\pip install -r requirements.txt
+echo.
+echo Iniciando SPICED ^& MEDDPICC Trainer...
+start http://localhost:5000
+.venv\Scripts\python app.py
+pause
