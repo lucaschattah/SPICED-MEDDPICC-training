@@ -7,7 +7,186 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <p>scaffold ok</p>
-  <script src="/static/app.js"></script>
+
+<!-- SCENARIO MODAL -->
+<div class="modal-overlay" id="scenarioModal">
+  <div class="modal">
+    <h2>Configurar cenário de roleplay</h2>
+    <p>Defina o produto e a empresa antes de começar a conversa.</p>
+    <div class="field-group">
+      <label>Produto SAP *</label>
+      <input type="text" id="inputProduto" placeholder="Ex: SAP Signavio">
+    </div>
+    <div class="field-group">
+      <label>Empresa alvo *</label>
+      <input type="text" id="inputEmpresa" placeholder="Ex: Ambev">
+    </div>
+    <div class="field-group">
+      <label>Setor / contexto (opcional)</label>
+      <input type="text" id="inputContexto" placeholder="Ex: Manufatura, 15k funcionários">
+    </div>
+    <button class="btn btn-primary btn-full" id="btnStartScenario">Iniciar roleplay →</button>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">SPICED & MEDDPICC Trainer</div>
+  <div class="topbar-sep">|</div>
+  <div class="topbar-scenario" id="scenarioLabel">Nenhum cenário ativo</div>
+  <div class="topbar-actions">
+    <button class="btn btn-ghost" id="btnNewScenario">↺ Novo cenário</button>
+    <button class="btn btn-eval" id="btnAvaliar">Avaliar →</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-tabs">
+      <div class="tab active-spiced" id="tabSpiced" data-tab="spiced">SPICED</div>
+      <div class="tab" id="tabMeddpicc" data-tab="meddpicc">MEDDPICC</div>
+    </div>
+    <div class="sidebar-body">
+
+      <!-- SPICED fields -->
+      <div class="framework-fields" id="fieldsSpiced">
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-blue">S</div>
+            <div class="field-name">Situation</div>
+          </div>
+          <textarea class="field-textarea" id="spiced-S" placeholder="Contexto e situação atual da empresa..."></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-blue">P</div>
+            <div class="field-name">Pain</div>
+          </div>
+          <textarea class="field-textarea" id="spiced-P" placeholder="Qual é a dor principal?"></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-blue">I</div>
+            <div class="field-name">Impact</div>
+          </div>
+          <textarea class="field-textarea" id="spiced-I" placeholder="Impacto financeiro ou operacional da dor..."></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-blue">CE</div>
+            <div class="field-name">Critical Event</div>
+          </div>
+          <textarea class="field-textarea" id="spiced-CE" placeholder="Existe um prazo ou evento crítico?"></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-blue">D</div>
+            <div class="field-name">Decision</div>
+          </div>
+          <textarea class="field-textarea" id="spiced-D" placeholder="Como e quem decide? Critérios de decisão..."></textarea>
+        </div>
+      </div>
+
+      <!-- MEDDPICC fields -->
+      <div class="framework-fields hidden" id="fieldsMeddpicc">
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">M</div>
+            <div class="field-name">Metrics</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-M" placeholder="Métricas de sucesso quantificáveis..."></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">E</div>
+            <div class="field-name">Economic Buyer</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-E" placeholder="Quem tem autoridade de aprovação de budget?"></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">D</div>
+            <div class="field-name">Decision Criteria</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-D" placeholder="Critérios técnicos e de negócio para decidir..."></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">D</div>
+            <div class="field-name">Decision Process</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-D2" placeholder="Etapas e timeline do processo de decisão..."></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">P</div>
+            <div class="field-name">Paper Process</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-PP" placeholder="Processo de aprovação legal/compras..."></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">I</div>
+            <div class="field-name">Implicate the Pain</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-IP" placeholder="Como a dor foi implicada e conectada ao impacto?"></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">C</div>
+            <div class="field-name">Champion</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-C" placeholder="Quem defende internamente a solução?"></textarea>
+        </div>
+        <div class="framework-field">
+          <div class="field-label">
+            <div class="field-letter letter-amber">C</div>
+            <div class="field-name">Competition</div>
+          </div>
+          <textarea class="field-textarea" id="meddpicc-C2" placeholder="Concorrentes em avaliação, status..."></textarea>
+        </div>
+      </div>
+
+      <div class="sidebar-hint">Preencha os campos conforme descobre informações no chat. Clique em "Avaliar →" quando quiser feedback.</div>
+    </div>
+  </div>
+
+  <!-- CHAT AREA -->
+  <div class="chat-area">
+    <div class="chat-messages" id="chatMessages">
+      <div style="margin:auto;text-align:center;color:var(--text-muted);font-size:12px;">
+        Configure um cenário para começar o roleplay.
+      </div>
+    </div>
+
+    <!-- EVAL PANEL (hidden by default) -->
+    <div class="eval-panel hidden" id="evalPanel">
+      <div class="eval-header">
+        <div class="eval-title" id="evalTitle">Avaliação</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="eval-score-badge" id="evalScore"></div>
+          <span class="eval-dismiss" id="evalDismiss">✕ fechar</span>
+        </div>
+      </div>
+      <div class="eval-grid" id="evalGrid"></div>
+      <details class="eval-ideal-block" id="evalIdealBlock">
+        <summary>Ver respostas ideais por campo</summary>
+        <div class="eval-ideal-content" id="evalIdealContent"></div>
+      </details>
+    </div>
+
+    <!-- INPUT -->
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" placeholder="Configure um cenário para começar..." disabled rows="1"></textarea>
+      <button class="btn btn-primary" id="btnSend" disabled>Enviar ↵</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/app.js"></script>
 </body>
 </html>
