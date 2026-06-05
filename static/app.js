@@ -295,3 +295,4 @@ function clearEval() {
   document.getElementById('evalScore').textContent = '';
   document.getElementById('evalIdealContent').innerHTML = '';
 }
+// eval module loaded
