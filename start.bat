@@ -1,4 +1,5 @@
 @echo off
+cd /d "%~dp0"
 echo Instalando dependencias...
 .venv\Scripts\pip install -r requirements.txt
 echo.
