@@ -20,7 +20,7 @@ Sales methodology roleplay training app. Practice discovery conversations and ge
    ```bash
    python app.py
    ```
-5. Open http://localhost:5000
+5. Open http://localhost:5001
 
 ## How to use
 

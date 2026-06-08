@@ -61,36 +61,43 @@ async function startScenario() {
   btnStart.disabled = true;
   btnStart.textContent = 'Configurando...';
 
-  const res = await fetch('/setup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ produto, empresa, contexto }),
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch('/setup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ produto, empresa, contexto }),
+    });
+    const data = await res.json();
 
-  personaName = data.persona_name;
-  personaRole = data.persona_role;
-  personaInitials = personaName.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    if (!res.ok || data.error) {
+      alert('Erro ao configurar cenário: ' + (data.error || 'Tente novamente.'));
+      return;
+    }
 
-  scenarioLabel.innerHTML = `Produto: <b>${produto}</b> &nbsp;·&nbsp; Empresa: <b>${empresa}</b>`;
-  modal.classList.add('hidden');
-  chatInput.disabled = false;
-  btnSend.disabled = false;
-  chatInput.placeholder = `Mensagem para ${personaName}...`;
-  chatInput.focus();
-  scenarioActive = true;
+    personaName = data.persona_name;
+    personaRole = data.persona_role;
+    personaInitials = personaName.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
 
-  // clear chat
-  chatMessages.innerHTML = '';
-  clearEval();
+    scenarioLabel.innerHTML = `Produto: <b>${produto}</b> &nbsp;·&nbsp; Empresa: <b>${empresa}</b>`;
+    modal.classList.add('hidden');
+    chatInput.disabled = false;
+    btnSend.disabled = false;
+    chatInput.placeholder = `Mensagem para ${personaName}...`;
+    chatInput.focus();
+    scenarioActive = true;
 
-  // opening message from the persona
-  appendMessage('company', personaName, personaRole,
-    `Olá! Pode falar. Estamos avaliando algumas soluções e tenho alguns minutos para conversar.`
-  );
+    chatMessages.innerHTML = '';
+    clearEval();
 
-  btnStart.disabled = false;
-  btnStart.textContent = 'Iniciar roleplay →';
+    appendMessage('company', personaName, personaRole,
+      `Olá! Pode falar. Estamos avaliando algumas soluções e tenho alguns minutos para conversar.`
+    );
+  } catch (err) {
+    alert('Erro de conexão. Verifique se o servidor está rodando.');
+  } finally {
+    btnStart.disabled = false;
+    btnStart.textContent = 'Iniciar roleplay →';
+  }
 }
 
 // ── NEW SCENARIO ──
@@ -140,21 +147,25 @@ async function sendMessage() {
   btnSend.disabled = true;
   const typingEl = appendTyping();
 
-  const res = await fetch('/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message }),
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch('/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
+    const data = await res.json();
 
-  typingEl.remove();
-  isTyping = false;
-  chatInput.disabled = false;
-  btnSend.disabled = false;
-  chatInput.focus();
-
-  if (data.reply) {
-    appendMessage('company', personaName, personaRole, data.reply);
+    if (data.reply) {
+      appendMessage('company', personaName, personaRole, data.reply);
+    }
+  } catch (err) {
+    appendMessage('company', personaName, personaRole, '⚠ Erro de conexão. Tente novamente.');
+  } finally {
+    typingEl.remove();
+    isTyping = false;
+    chatInput.disabled = false;
+    btnSend.disabled = false;
+    chatInput.focus();
   }
 }
 
@@ -230,17 +241,26 @@ async function runEvaluation() {
     C2: document.getElementById('meddpicc-C2').value,
   };
 
-  const res = await fetch('/avaliar', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ spiced, meddpicc }),
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch('/avaliar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ spiced, meddpicc }),
+    });
+    const data = await res.json();
 
-  renderEval(data);
+    if (!res.ok || data.error) {
+      alert('Erro na avaliação: ' + (data.error || 'Tente novamente.'));
+      return;
+    }
 
-  btnAvaliar.disabled = false;
-  btnAvaliar.textContent = 'Avaliar →';
+    renderEval(data);
+  } catch (err) {
+    alert('Erro de conexão ao avaliar. Tente novamente.');
+  } finally {
+    btnAvaliar.disabled = false;
+    btnAvaliar.textContent = 'Avaliar →';
+  }
 }
 
 function renderEval(data) {
@@ -258,8 +278,8 @@ function renderEval(data) {
   grid.innerHTML = '';
 
   const allFields = [
-    ...Object.entries(data.spiced).map(([k, v]) => ({ key: k, label: SPICED_LABELS[k] || k, ...v, color: 'blue' })),
-    ...Object.entries(data.meddpicc).map(([k, v]) => ({ key: k, label: MEDD_LABELS[k] || k, ...v, color: 'amber' })),
+    ...Object.entries(data.spiced || {}).map(([k, v]) => ({ key: k, label: SPICED_LABELS[k] || k, ...v, color: 'blue' })),
+    ...Object.entries(data.meddpicc || {}).map(([k, v]) => ({ key: k, label: MEDD_LABELS[k] || k, ...v, color: 'amber' })),
   ];
 
   allFields.forEach(f => {

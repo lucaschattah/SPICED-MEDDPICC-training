@@ -83,7 +83,10 @@ def setup():
     import json, re
     raw = response.text.strip()
     raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
-    persona = json.loads(raw)
+    try:
+        persona = json.loads(raw)
+    except json.JSONDecodeError:
+        return jsonify({"error": "Falha ao gerar persona. Tente novamente."}), 500
 
     session.clear()
     session["scenario"] = {
@@ -181,7 +184,10 @@ C2 (Competition): {meddpicc.get('C2', '')}"""
     response = model.generate_content(user_content)
     raw = response.text.strip()
     raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
-    result = json.loads(raw)
+    try:
+        result = json.loads(raw)
+    except json.JSONDecodeError:
+        return jsonify({"error": "Falha ao processar avaliação. Tente novamente."}), 500
 
     return jsonify(result)
 
