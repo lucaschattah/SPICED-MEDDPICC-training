@@ -12,11 +12,38 @@
 <div class="modal-overlay" id="scenarioModal">
   <div class="modal">
     <h2>Configurar cenário de roleplay</h2>
-    <p>Defina o produto e a empresa antes de começar a conversa.</p>
+    <p>Selecione os produtos que está vendendo e defina a empresa alvo.</p>
+
     <div class="field-group">
-      <label>Produto SAP *</label>
-      <input type="text" id="inputProduto" placeholder="Ex: SAP Signavio">
+      <label>Produtos que você vende *</label>
+      <div class="product-grid" id="productGrid">
+        <div class="product-chip" data-id="docusign-esign" data-vendor="docusign">
+          <span class="product-chip-vendor">DocuSign</span>eSignature
+        </div>
+        <div class="product-chip" data-id="docusign-iam" data-vendor="docusign">
+          <span class="product-chip-vendor">DocuSign</span>IAM
+        </div>
+        <div class="product-chip" data-id="sap-erp" data-vendor="sap">
+          <span class="product-chip-vendor">SAP</span>Cloud ERP
+        </div>
+        <div class="product-chip" data-id="sap-signavio" data-vendor="sap">
+          <span class="product-chip-vendor">SAP</span>Signavio
+        </div>
+        <div class="product-chip" data-id="sap-leanix" data-vendor="sap">
+          <span class="product-chip-vendor">SAP</span>LeanIX
+        </div>
+        <div class="product-chip" data-id="sap-walkme" data-vendor="sap">
+          <span class="product-chip-vendor">SAP</span>WalkMe
+        </div>
+        <div class="product-chip" data-id="tricentis" data-vendor="tricentis">
+          <span class="product-chip-vendor">Tricentis</span>Test Automation
+        </div>
+        <div class="product-chip" data-id="syniti" data-vendor="syniti">
+          <span class="product-chip-vendor">Syniti</span>Data Management
+        </div>
+      </div>
     </div>
+
     <div class="field-group">
       <label>Empresa alvo *</label>
       <input type="text" id="inputEmpresa" placeholder="Ex: Ambev">
@@ -26,6 +53,7 @@
       <input type="text" id="inputContexto" placeholder="Ex: Manufatura, 15k funcionários">
     </div>
     <button class="btn btn-primary btn-full" id="btnStartScenario">Iniciar roleplay →</button>
+    <div style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:-4px;">feito com ❤️ pra lele</div>
   </div>
 </div>
 
@@ -35,8 +63,9 @@
   <div class="topbar-sep">|</div>
   <div class="topbar-scenario" id="scenarioLabel">Nenhum cenário ativo</div>
   <div class="topbar-actions">
+    <button class="btn btn-ghost" id="btnSelectFields" style="display:none">☰ Selecionar campos</button>
     <button class="btn btn-ghost" id="btnNewScenario">↺ Novo cenário</button>
-    <button class="btn btn-eval" id="btnAvaliar">Avaliar →</button>
+    <button class="btn btn-eval" id="btnAvaliar">Avaliar todos →</button>
   </div>
 </div>
 
@@ -46,111 +75,144 @@
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-tabs">
-      <div class="tab active-spiced" id="tabSpiced" data-tab="spiced">SPICED</div>
-      <div class="tab" id="tabMeddpicc" data-tab="meddpicc">MEDDPICC</div>
+      <div class="tab active-spiced" id="tabSpiced">SPICED</div>
+      <div class="tab" id="tabMeddpicc">MEDDPICC</div>
     </div>
     <div class="sidebar-body">
 
       <!-- SPICED fields -->
       <div class="framework-fields" id="fieldsSpiced">
-        <div class="framework-field">
+        <div class="framework-field" data-framework="spiced" data-key="S">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-blue">S</div>
             <div class="field-name">Situation</div>
           </div>
           <textarea class="field-textarea" id="spiced-S" placeholder="Contexto e situação atual da empresa..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="spiced" data-key="S">Avaliar S →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="spiced" data-key="P">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-blue">P</div>
             <div class="field-name">Pain</div>
           </div>
           <textarea class="field-textarea" id="spiced-P" placeholder="Qual é a dor principal?"></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="spiced" data-key="P">Avaliar P →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="spiced" data-key="I">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-blue">I</div>
             <div class="field-name">Impact</div>
           </div>
           <textarea class="field-textarea" id="spiced-I" placeholder="Impacto financeiro ou operacional da dor..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="spiced" data-key="I">Avaliar I →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="spiced" data-key="CE">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-blue">CE</div>
             <div class="field-name">Critical Event</div>
           </div>
           <textarea class="field-textarea" id="spiced-CE" placeholder="Existe um prazo ou evento crítico?"></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="spiced" data-key="CE">Avaliar CE →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="spiced" data-key="D">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-blue">D</div>
             <div class="field-name">Decision</div>
           </div>
-          <textarea class="field-textarea" id="spiced-D" placeholder="Como e quem decide? Critérios de decisão..."></textarea>
+          <textarea class="field-textarea" id="spiced-D" placeholder="Como e quem decide?"></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="spiced" data-key="D">Avaliar D →</button>
         </div>
       </div>
 
       <!-- MEDDPICC fields -->
       <div class="framework-fields hidden" id="fieldsMeddpicc">
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="M">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">M</div>
             <div class="field-name">Metrics</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-M" placeholder="Métricas de sucesso quantificáveis..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="M">Avaliar M →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="E">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">E</div>
             <div class="field-name">Economic Buyer</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-E" placeholder="Quem tem autoridade de aprovação de budget?"></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="E">Avaliar E →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="D">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">D</div>
             <div class="field-name">Decision Criteria</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-D" placeholder="Critérios técnicos e de negócio para decidir..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="D">Avaliar D →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="D2">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">D</div>
             <div class="field-name">Decision Process</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-D2" placeholder="Etapas e timeline do processo de decisão..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="D2">Avaliar D2 →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="PP">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">P</div>
             <div class="field-name">Paper Process</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-PP" placeholder="Processo de aprovação legal/compras..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="PP">Avaliar PP →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="IP">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">I</div>
             <div class="field-name">Implicate the Pain</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-IP" placeholder="Como a dor foi implicada e conectada ao impacto?"></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="IP">Avaliar IP →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="C">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">C</div>
             <div class="field-name">Champion</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-C" placeholder="Quem defende internamente a solução?"></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="C">Avaliar C →</button>
         </div>
-        <div class="framework-field">
+        <div class="framework-field" data-framework="meddpicc" data-key="C2">
           <div class="field-label">
+            <input type="checkbox" class="field-check hidden-check" checked title="Incluir na avaliação">
             <div class="field-letter letter-amber">C</div>
             <div class="field-name">Competition</div>
           </div>
           <textarea class="field-textarea" id="meddpicc-C2" placeholder="Concorrentes em avaliação, status..."></textarea>
+          <button class="btn-field-eval field-eval-inline hidden" data-framework="meddpicc" data-key="C2">Avaliar C2 →</button>
         </div>
       </div>
 
-      <div class="sidebar-hint">Preencha os campos conforme descobre informações no chat. Clique em "Avaliar →" quando quiser feedback.</div>
+      <!-- Selection mode bar (hidden by default) -->
+      <div class="select-mode-bar hidden" id="selectModeBar">
+        <button class="btn btn-ghost" id="btnCheckAll" style="font-size:11px;padding:4px 8px;">Todos</button>
+        <button class="btn btn-ghost" id="btnUncheckAll" style="font-size:11px;padding:4px 8px;">Nenhum</button>
+        <button class="btn btn-eval" id="btnAvaliarSelected" style="font-size:11px;padding:4px 10px;margin-left:auto;">Avaliar selecionados →</button>
+      </div>
+
+      <div class="sidebar-hint" id="sidebarHint">Preencha os campos conforme descobre informações no chat.</div>
     </div>
   </div>
 
@@ -162,7 +224,7 @@
       </div>
     </div>
 
-    <!-- EVAL PANEL (hidden by default) -->
+    <!-- EVAL PANEL -->
     <div class="eval-panel hidden" id="evalPanel">
       <div class="eval-header">
         <div class="eval-title" id="evalTitle">Avaliação</div>
@@ -172,7 +234,7 @@
         </div>
       </div>
       <div class="eval-grid" id="evalGrid"></div>
-      <details class="eval-ideal-block" id="evalIdealBlock">
+      <details class="eval-ideal-block">
         <summary>Ver respostas ideais por campo</summary>
         <div class="eval-ideal-content" id="evalIdealContent"></div>
       </details>
@@ -180,8 +242,24 @@
 
     <!-- INPUT -->
     <div class="chat-input-area">
-      <textarea class="chat-input" id="chatInput" placeholder="Configure um cenário para começar..." disabled rows="1"></textarea>
-      <button class="btn btn-primary" id="btnSend" disabled>Enviar ↵</button>
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Configure um cenário para começar..." disabled rows="1"></textarea>
+        <button class="btn btn-primary" id="btnSend" disabled>Enviar ↵</button>
+      </div>
+      <div class="hints-bar" id="hintsBar" style="display:none">
+        <div class="hints-bar-header">
+          <span class="hints-bar-label">Sugestões de perguntas</span>
+          <div class="hints-filter">
+            <button class="btn-hints-filter active" id="hintFilterAll">Todos</button>
+            <button class="btn-hints-filter" id="hintFilterSpiced">SPICED</button>
+            <button class="btn-hints-filter" id="hintFilterMedd">MEDDPICC</button>
+          </div>
+        </div>
+        <div class="hints-list" id="hintsList"></div>
+      </div>
+      <div class="hints-actions" id="hintsActions" style="display:none">
+        <button class="btn btn-ghost btn-hints" id="btnDicas" disabled>💡 Dicas</button>
+      </div>
     </div>
   </div>
 

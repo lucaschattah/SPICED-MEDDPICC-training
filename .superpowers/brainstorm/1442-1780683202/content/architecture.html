@@ -1,0 +1,101 @@
+<h2>Abordagens arquiteturais</h2>
+<p class="subtitle">Como estruturar o backend e o frontend do app</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;height:160px;font-size:10px;padding:8px;background:#0d1b2a;border-radius:6px;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="background:#0070f3;border-radius:4px;padding:4px 8px;color:white;font-weight:600;">Browser (HTML/CSS/JS puro)</div>
+          <div style="color:#556;">↕ fetch</div>
+          <div style="background:#1e3a5f;border-radius:4px;padding:4px 8px;color:#7eb3d8;">Python Flask</div>
+          <div style="color:#556;">↕</div>
+          <div style="background:#1a4a1a;border-radius:4px;padding:4px 8px;color:#7bc47b;">Gemini API</div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:4px;">
+          <div style="flex:1;background:#111d2b;border-radius:4px;padding:6px;">
+            <div style="color:#7eb3d8;font-weight:600;margin-bottom:3px;">Flask faz:</div>
+            <div style="color:#8ab;font-size:9px;">• Chama Gemini API</div>
+            <div style="color:#8ab;font-size:9px;">• Guarda histórico</div>
+            <div style="color:#8ab;font-size:9px;">• Rota /chat + /avaliar</div>
+          </div>
+          <div style="flex:1;background:#111d2b;border-radius:4px;padding:6px;">
+            <div style="color:#7eb3d8;font-weight:600;margin-bottom:3px;">Browser faz:</div>
+            <div style="color:#8ab;font-size:9px;">• UI completa</div>
+            <div style="color:#8ab;font-size:9px;">• Campos SPICED/MEDDPICC</div>
+            <div style="color:#8ab;font-size:9px;">• Botão avaliar</div>
+          </div>
+        </div>
+        <div style="background:#1a2332;border-radius:4px;padding:4px;color:#556;font-size:9px;text-align:center;">Similar ao fc-forecast que você já tem</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Flask + HTML/JS (Recomendado)</h3>
+      <p>Backend Python leve gerencia as chamadas à API Gemini e o histórico do chat. Frontend em HTML/CSS/JS puro, sem frameworks. Mesmo padrão do seu fc-forecast.</p>
+      <div class="pros-cons" style="font-size:10px;margin-top:8px;">
+        <div class="pros"><h4>Prós</h4><ul><li>Você já conhece o padrão</li><li>API key segura no servidor</li><li>Fácil de rodar localmente</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Precisa de Python instalado</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;height:160px;font-size:10px;padding:8px;background:#0d1b2a;border-radius:6px;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div style="background:#0070f3;border-radius:4px;padding:4px 8px;color:white;font-weight:600;">Browser</div>
+          <div style="color:#556;">→ direto →</div>
+          <div style="background:#1a4a1a;border-radius:4px;padding:4px 8px;color:#7bc47b;">Gemini API</div>
+        </div>
+        <div style="background:#3a1a1a;border-radius:4px;padding:6px;margin-top:4px;color:#e8a000;font-size:9px;">
+          ⚠ API key exposta no código JS — qualquer um que inspecionar o código vê a chave
+        </div>
+        <div style="background:#111d2b;border-radius:4px;padding:6px;margin-top:4px;color:#8ab;font-size:9px;">
+          + Sem instalação de Python<br>
+          + Abre o HTML diretamente no browser<br>
+          + Zero backend
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — HTML puro com chamada direta à API</h3>
+      <p>Sem backend. O JavaScript chama a Gemini API diretamente do browser. Abre o arquivo HTML e pronto — sem instalar nada.</p>
+      <div class="pros-cons" style="font-size:10px;margin-top:8px;">
+        <div class="pros"><h4>Prós</h4><ul><li>Zero setup</li><li>Arquivo único</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>API key visível no código</li><li>Uso pessoal = risco baixo, mas existe</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;gap:6px;height:160px;font-size:10px;padding:8px;background:#0d1b2a;border-radius:6px;">
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <div style="background:#6b21a8;border-radius:4px;padding:4px 8px;color:white;font-weight:600;">Next.js / React</div>
+          <div style="color:#556;">↕</div>
+          <div style="background:#1e3a5f;border-radius:4px;padding:4px 8px;color:#7eb3d8;">API Routes</div>
+          <div style="color:#556;">↕</div>
+          <div style="background:#1a4a1a;border-radius:4px;padding:4px 8px;color:#7bc47b;">Gemini</div>
+        </div>
+        <div style="background:#111d2b;border-radius:4px;padding:6px;margin-top:4px;color:#8ab;font-size:9px;">
+          + Componentes React reativos<br>
+          + TypeScript<br>
+          − npm install, build step, mais complexo<br>
+          − Overkill para uso local pessoal
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Next.js / React</h3>
+      <p>Stack moderna com React. Mais robusto mas também mais pesado — requer Node, npm install, build. Overkill para uma ferramenta de treino pessoal.</p>
+      <div class="pros-cons" style="font-size:10px;margin-top:8px;">
+        <div class="pros"><h4>Prós</h4><ul><li>Stack moderna</li><li>Componentes reativos</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Setup complexo</li><li>Excessivo para o caso</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Minha recomendação: A. Clique para selecionar e confirme no terminal.</p>
